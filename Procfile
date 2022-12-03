@@ -1,1 +1,1 @@
-web: gunicorn 'lifehack.wsgi'
+web: gunicorn lifehack.wsgi --log-file-
