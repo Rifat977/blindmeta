@@ -1,1 +1,1 @@
-web: gunicorn lifehack.wsgi --log-file-
+web: gunicorn lifehack.asgi --log-file-
