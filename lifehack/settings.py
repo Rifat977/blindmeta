@@ -27,10 +27,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'chat.apps.ChatConfig'
+    'chat'
 ]
 
-# WSGI_APPLICATION = 'lifehack.wsgi.application'
+WSGI_APPLICATION = 'lifehack.wsgi.application'
 ASGI_APPLICATION = "lifehack.asgi.application"
 CHANNEL_LAYERS = {
     'default':{
