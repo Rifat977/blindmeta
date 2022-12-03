@@ -1,0 +1,27 @@
+{% load static %}
+<aside id="sidebar" class="sidebar">
+
+    <ul class="sidebar-nav" id="sidebar-nav">
+
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="{% url 'lifehack:home' %}">
+                <i class="bi bi-grid"></i>
+                <span>Home</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="{% url 'lifehack:chat-page' %}">
+                <i class="bi bi-chat-left-text"></i>
+                <span>Chat Option</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="{% url 'lifehack:vassist' %}">
+                <i class="bi bi-person-bounding-box"></i>
+                <span>Virtual Assistant</span>
+            </a>
+        </li>
+    </ul>
+
+</aside>
+<!-- End Sidebar-->

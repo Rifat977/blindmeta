@@ -1,0 +1,13 @@
+aiohttp==3.8.3
+async-generator==1.10
+async-timeout==4.0.2
+bottle-websocket==0.2.9
+channels==3.0.4
+Django==3.2.16
+pyOpenSSL==21.0.0
+pyttsx3==2.90
+redis==4.3.4
+requests==2.24.0
+SpeechRecognition==3.8.1
+user-agents==2.2.0
+whitenoise==6.2.0
