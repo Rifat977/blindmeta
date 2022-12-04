@@ -188,7 +188,7 @@
                 scrollToBottom();
             } else {
                 let html = `<div class="d-flex flex-row justify-content-start">
-                                        <img src="{% static 'admin/assets/img/profile-img.jpg' %}" alt="avatar 1" class="rounded-circle" style="width: 45px; height: 100%;">
+                                        <img src="${data.recev_image}" alt="avatar 1" class="rounded-circle" style="width: 45px; height: 100%;">
                                         <div>
                                             <p class="small p-2 ms-3 mb-1 rounded-3" style="background-color: #f5f6f7;">${data.message}</p>
                                             <p class="small ms-3 mb-3 rounded-3 text-muted">${data.sentByUser}</p>

@@ -10,7 +10,7 @@ def say():
     try:
         with speech_recognition.Microphone() as mic:
             recog.adjust_for_ambient_noise(mic, duration=0.2)
-            audio = recog.listen(mic, timeout=1)
+            audio = recog.listen(mic, timeout=1.5)
             text = recog.recognize_google(audio)
             text = text.lower()
     except:
@@ -19,25 +19,26 @@ def say():
         # recog = speech_recognition.Recognizer()
     return text
 
-def speak(text):
+def speak(text, gender):
     audio = pyttsx3.init()
-    # voices = audio.getProperty('voices')
-    # audio.setProperty('voice', voices[1].id)
+    if gender=="female":
+        voices = audio.getProperty('voices')
+        audio.setProperty('voice', voices[1].id)
     audio.setProperty("rate", 140)
     audio.say(text)
     audio.runAndWait()
     # audio.stop()
 
-def wishMe(name):
+def wishMe(name, gender):
     hour = int(datetime.datetime.now().hour)
     if hour>= 0 and hour<12:
-        speak("Good Morning "+name)
+        speak("Good Morning "+name, gender)
   
     elif hour>= 12 and hour<18:
-        speak("Good Afternoon "+name)  
+        speak("Good Afternoon "+name, gender)  
   
     else:
-        speak("Good Evening "+name) 
+        speak("Good Evening "+name, gender) 
   
     # speak("I am your Virtual Assistant BlindMeta. How can i help you?")
 

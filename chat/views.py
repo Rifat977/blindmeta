@@ -60,39 +60,40 @@ def vAssist(request):
 
 @login_required
 def runAssist(request):
-    wishMe(request.user.username)
+    gender = request.user.profile.gender
+    wishMe(request.user.username, gender)
     while True:
         command = say().lower()
         if 'time' in command:
             time = time_now()
             result  = "Current time is " + time
-            speak(result)
+            speak(result, gender)
         elif 'news' in command or 'breaking news' in command or 'breakingnews' in command:
             if 'sports' in command:
-                speak("Okay, I am finding sports news.")
+                speak("Okay, I am finding sports news.", gender)
                 result = sports_news()
             else:
-                speak("Okay, I am finding breaking news.")
+                speak("Okay, I am finding breaking news.", gender)
                 result = breaking_news()
-            speak(result)
+            speak(result, gender)
             return JsonResponse({'command':command, 'result':result}, status=200)
         elif 'sports' in command:
-            speak("Okay, I am finding sports news.")
+            speak("Okay, I am finding sports news.", gender)
             result = sports_news()
-            speak(result)
+            speak(result, gender)
             return JsonResponse({'command':command, 'result':result, 'speak':True}, status=200)
         elif 'play' in command:
             video = command.replace("play", "")
-            speak("Okay, I am playing "+video+" from youtube.")
+            speak("Okay, I am playing "+video+" from youtube.", gender)
             play_yt(video)
             result = "Music playing"
             return JsonResponse({'command':command, 'result':result}, status=200)
         elif 'stop' in command or 'exit' in command or 'sleep' in command:
             result = "Thanks giving your time!"
-            speak(result)
+            speak(result, gender)
             break
         elif 'name' in command:
-            speak("I am Blind Meta. Your personal Virtual Assistant from Daffodil international university, department of software engineering")
+            speak("I am your personal assistant blind meta.", gender)
     data = {
         'result' : result,
         'command' : command

@@ -53,6 +53,16 @@
                                     </div>
                                 </div>
 
+                                <div class="row mb-3">
+                                    <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Gender</label>
+                                    <div class="col-md-8 col-lg-9">
+                                        <select name="gender" class="form-control">
+                                            <option {% if profile.gender == 'male' %} selected {% endif %} value="male">Male</option>
+                                            <option {% if profile.gender == 'female' %} selected {% endif %} value="female">Female</option>
+                                        </select>
+                                    </div>
+                                </div>
+
                                 <div class="text-center">
                                     <button type="submit" class="btn btn-primary">Save Changes</button>
                                 </div>

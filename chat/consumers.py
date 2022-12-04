@@ -2,7 +2,7 @@ import json
 from channels.generic.websocket import WebsocketConsumer
 from asgiref.sync import async_to_sync, sync_to_async
 import pyttsx3
-from .models import Message, Room
+from .models import Message, Room, Profile
 from django.contrib.auth.models import User
 import asyncio
 
@@ -33,7 +33,7 @@ class ChatConsumer(WebsocketConsumer):
         sentByUser = text_data_json['sentByUser']
         room = text_data_json['room']
 
-        self.save_message(username, room, message)
+        async_to_sync(self.save_message(username, room, message))
 
         async_to_sync(self.channel_layer.group_send)(
             self.room_group_name,
@@ -53,12 +53,16 @@ class ChatConsumer(WebsocketConsumer):
         sentByUser = event['sentByUser']
         room = event['room']
 
+        user = User.objects.get(username=username)
+        recev_image = Profile.objects.get(user=user.id)
+
         self.send(text_data=json.dumps({
             'type':'chat',
             'message':message,
             'username':username,
             'sentByUser':sentByUser,
-            'room':room
+            'room':room,
+            'recev_image' : recev_image.image.url
         }))  
         audio = pyttsx3.init()
         audio.setProperty("rate", 130)

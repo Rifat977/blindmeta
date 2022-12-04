@@ -28,4 +28,4 @@ class RoomForm(forms.ModelForm):
 class ProfileForm(forms.ModelForm):
 	class Meta:
 		model = Profile
-		fields = ('image', 'name',)
+		fields = ('image', 'name','gender',)

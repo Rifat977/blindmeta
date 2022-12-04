@@ -5,6 +5,11 @@ from datetime import date
 from django.db.models.signals import post_save, post_delete
 import os
 
+sex = (
+    ('male', 'male'),
+    ('female', 'female')
+)
+
 rand = random.randint(10000,99999)
 today = date.today()
 rand = str(rand)+str(today)+str(rand)
@@ -18,6 +23,7 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=100, blank=True)
     image = models.ImageField(upload_to=user_path, blank=True)
+    gender = models.CharField(choices=sex, default='male', max_length=15)
 
     def __str__(self):  
           return "%s's profile" % self.user  
