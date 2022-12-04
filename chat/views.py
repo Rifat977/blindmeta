@@ -133,17 +133,17 @@ def chatPage(request):
 def audiobook(request):
     if request.method == "POST":
         try:
-            text = ""
+            string = ""
             reader = PdfReader(request.FILES['pdf'])
             number_of_pages = len(reader.pages)
             for i in range(number_of_pages):
                 page = reader.pages[i]
                 text = page.extract_text()
-                text += text
+                string += text
             print(text)
             filename = str(random.randint(0000,9999))+''+str(random.randint(0000,9999))+'.mp3'
             engine = pyttsx3.init()
-            engine.save_to_file(text, 'static/audio/'+filename)
+            engine.save_to_file(string, 'static/audio/'+filename)
             engine.runAndWait()
             Book.objects.create(user=request.user, name=request.POST['name'], audio_src=filename)
         except Exception as e:

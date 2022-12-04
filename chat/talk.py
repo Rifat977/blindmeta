@@ -10,7 +10,7 @@ def say():
     try:
         with speech_recognition.Microphone() as mic:
             recog.adjust_for_ambient_noise(mic, duration=0.2)
-            audio = recog.listen(mic, timeout=1.5)
+            audio = recog.listen(mic, timeout=1.0)
             text = recog.recognize_google(audio)
             text = text.lower()
     except:
@@ -33,19 +33,18 @@ def speak(text, gender):
     # audio.stop()
 
 def wishMe(name, gender):
-    hour = int(datetime.datetime.now().hour)
-    if hour>= 0 and hour<12:
-        speak("Good Morning "+name, gender)
+    speak("Hi "+ name, gender)
+    speak("How can i help you?", gender)
+    # hour = int(datetime.datetime.now().hour)
+    # if hour>= 0 and hour<12:
+    #     speak("Good Morning "+name, gender)
   
-    elif hour>= 12 and hour<18:
-        speak("Good Afternoon "+name, gender)  
+    # elif hour>= 12 and hour<18:
+    #     speak("Good Afternoon "+name, gender)  
   
-    else:
-        speak("Good Evening "+name, gender) 
-        speak("Good Evening "+name, gender) 
-        speak("Good Evening "+name, gender) 
+    # else:
+    #     speak("Good Evening "+name, gender)
   
-    # speak("I am your Virtual Assistant BlindMeta. How can i help you?")
 
 def time_now():
     time = datetime.datetime.now().strftime('%I:%M')
