@@ -1,0 +1,39 @@
+{% extends '../base.html' %} {% block metatitle %} {{request.user.username}} Profile {% endblock %} {% block content %} {% load static %}
+<section class="section profile">
+    <div class="row">
+        <div class="col-md-6 col-12">
+            <form class="row g-3" action="{% url 'lifehack:audiobook' %}" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="col-12">
+                    <label for="inputNanme4" class="form-label">Book Name</label>
+                    <input type="text" name="name" required class="form-control" placeholder="">
+                </div>
+                <div class="col-12">
+                    <label for="inputAddress" class="form-label">Upload PDF</label>
+                    <input type="file" name="pdf" required class="form-control">
+                </div>
+                <div class="text-left">
+                    <button type="submit" class="btn btn-dark">Add</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row mt-4">
+        {% for book in books %}
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+                    <!-- <img src="{% static 'admin/assets/img/book.jpg' %}" alt="Profile" class=""> -->
+                    <h2 class="card-title">{{book.name}}</h2>
+                    <audio controls class="form-control">  
+                        <source src="{% static 'audio/' %}{{book.audio_src}}" type="audio/mpeg">  
+                      Your browser does not support the html audio tag.  
+                    </audio>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+<!-- End Page Title -->
+{% load static %} {% endblock %}

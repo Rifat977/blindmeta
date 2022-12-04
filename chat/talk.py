@@ -20,13 +20,16 @@ def say():
     return text
 
 def speak(text, gender):
-    audio = pyttsx3.init()
-    if gender=="female":
-        voices = audio.getProperty('voices')
-        audio.setProperty('voice', voices[1].id)
-    audio.setProperty("rate", 140)
-    audio.say(text)
-    audio.runAndWait()
+    try:
+        audio = pyttsx3.init()
+        if gender=="female":
+            voices = audio.getProperty('voices')
+            audio.setProperty('voice', voices[1].id)
+        audio.setProperty("rate", 140)
+        audio.say(text)
+        audio.runAndWait()
+    except KeyboardInterrupt:
+        audio.terminate()
     # audio.stop()
 
 def wishMe(name, gender):
@@ -38,6 +41,8 @@ def wishMe(name, gender):
         speak("Good Afternoon "+name, gender)  
   
     else:
+        speak("Good Evening "+name, gender) 
+        speak("Good Evening "+name, gender) 
         speak("Good Evening "+name, gender) 
   
     # speak("I am your Virtual Assistant BlindMeta. How can i help you?")

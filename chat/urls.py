@@ -20,4 +20,5 @@ urlpatterns = [
 
     path('virtual-assistant/', views.vAssist, name="vassist"),
     path('run-assistant/', views.runAssist, name="run-assist"),
+    path('audiobook/', views.audiobook, name="audiobook"),
 ]

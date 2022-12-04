@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import Room, Profile
+from .models import Room, Profile, Book
 
 
 # Create your forms here.
@@ -23,6 +23,11 @@ class NewUserForm(UserCreationForm):
 class RoomForm(forms.ModelForm):
     class Meta:
         model = Room
+        fields = '__all__'
+	
+class BookForm(forms.ModelForm):
+    class Meta:
+        model = Book
         fields = '__all__'
 
 class ProfileForm(forms.ModelForm):

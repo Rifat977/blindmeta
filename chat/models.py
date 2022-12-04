@@ -4,6 +4,8 @@ import random
 from datetime import date
 from django.db.models.signals import post_save, post_delete
 import os
+from django.core.validators import FileExtensionValidator
+
 
 sex = (
     ('male', 'male'),
@@ -44,6 +46,15 @@ class Message(models.Model):
     
     class Meta:
         ordering = ('date_added',)
+    
+class Book(models.Model):
+    user = models.ForeignKey(User, related_name='books', on_delete=models.CASCADE)
+    name = models.CharField(max_length=255)
+    audio_src = models.CharField(max_length=255)
+
+    def __str__(self):
+        return f"{self.name}"
+
 
 def create_user_profile(sender, instance, created, **kwargs):  
     if created:  

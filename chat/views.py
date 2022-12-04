@@ -4,13 +4,13 @@ from .decorators import unauthenticated_user
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .models import *
-from .forms import NewUserForm, RoomForm, ProfileForm
+from .forms import NewUserForm, RoomForm, ProfileForm, BookForm
 from django.http import HttpResponse, JsonResponse
 import speech_recognition
 from django.db.models import Q
 import pyttsx3
+from PyPDF2 import PdfReader
 from .talk import *
-import json
 
 
 # Create your views here.
@@ -89,7 +89,7 @@ def runAssist(request):
             result = "Music playing"
             return JsonResponse({'command':command, 'result':result}, status=200)
         elif 'stop' in command or 'exit' in command or 'sleep' in command:
-            result = "Thanks giving your time!"
+            result = "Thanks for giving your time!"
             speak(result, gender)
             break
         elif 'name' in command:
@@ -128,6 +128,28 @@ def chatPage(request):
         'rooms' : rooms
     }
     return render(request, 'pages/chat.html', context)
+
+@login_required
+def audiobook(request):
+    if request.method == "POST":
+        try:
+            text = ""
+            reader = PdfReader(request.FILES['pdf'])
+            number_of_pages = len(reader.pages)
+            for i in range(number_of_pages):
+                page = reader.pages[i]
+                text = page.extract_text()
+                text += text
+            print(text)
+            filename = str(random.randint(0000,9999))+''+str(random.randint(0000,9999))+'.mp3'
+            engine = pyttsx3.init()
+            engine.save_to_file(text, 'static/audio/'+filename)
+            engine.runAndWait()
+            Book.objects.create(user=request.user, name=request.POST['name'], audio_src=filename)
+        except Exception as e:
+            print(e)
+    books = Book.objects.filter(user=request.user)
+    return render(request, 'pages/audiobook.html', {'books':books})
 
 @unauthenticated_user
 def Login(request):
