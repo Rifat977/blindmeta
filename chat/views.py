@@ -82,7 +82,7 @@ def runAssist(request):
             result = sports_news()
             speak(result, gender)
             return JsonResponse({'command':command, 'result':result, 'speak':True}, status=200)
-        elif 'play' in command:
+        elif 'play' in command or 'video' in command or 'music' in command:
             video = command.replace("play", "")
             speak("Okay, I am playing "+video+" from youtube.", gender)
             play_yt(video)
