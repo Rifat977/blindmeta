@@ -47,6 +47,15 @@ class Message(models.Model):
     class Meta:
         ordering = ('date_added',)
     
+class PersonalMessage(models.Model):
+    user = models.ForeignKey(User, related_name='personalmessages', on_delete=models.CASCADE)
+    sent_user = models.ForeignKey(User, related_name='personalmessages_sent_user', on_delete=models.CASCADE)
+    content = models.TextField()
+    date_added = models.DateTimeField(auto_now_add=True)
+    
+    class Meta:
+        ordering = ('date_added',)
+    
 class Book(models.Model):
     user = models.ForeignKey(User, related_name='books', on_delete=models.CASCADE)
     name = models.CharField(max_length=255)

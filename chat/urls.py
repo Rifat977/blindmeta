@@ -13,7 +13,8 @@ urlpatterns = [
 
     path('create-group/', views.groupCreate, name="group-create"),
 
-    path('chat/<str:room_id>', views.chat, name="chat-room"),
+    path('chat/group/<str:room_id>', views.chatGroup, name="chat-room"),
+    path('chat/user/<str:user_id>', views.chatUser, name="chat-user"),
     path('chat/', views.chatPage, name="chat-page"),
     path('chat/search/', views.chatSearch, name="chat-search"),
     path('audio/', views.audio, name="audio"),

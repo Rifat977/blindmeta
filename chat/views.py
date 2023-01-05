@@ -6,7 +6,7 @@ from django.contrib import messages
 from .models import *
 from .forms import NewUserForm, RoomForm, ProfileForm, BookForm
 from django.http import HttpResponse, JsonResponse
-import speech_recognition
+import speech_recognition as sr
 from django.db.models import Q
 import pyttsx3
 from PyPDF2 import PdfReader
@@ -23,7 +23,7 @@ def home(request):
     return render(request, 'pages/home.html', context)
 
 @login_required
-def chat(request, room_id):
+def chatGroup(request, room_id):
     rooms = Room.objects.all()
     room = Room.objects.get(slug=room_id)
     messages = Message.objects.filter(room=room)
@@ -33,6 +33,21 @@ def chat(request, room_id):
         'messages' : messages
     }
     return render(request, 'pages/chat.html', context)
+
+@login_required
+def chatUser(request, user_id):
+    rooms = Room.objects.all()
+    chat_user = User.objects.get(username=user_id)
+    p_message = PersonalMessage.objects.filter(user=request.user)
+    messages = PersonalMessage.objects.filter(user=request.user, sent_user=chat_user.id)
+    messages |= PersonalMessage.objects.filter(user=chat_user.id, sent_user=request.user)
+    context = {
+        'rooms' : rooms,
+        'chat_user' : chat_user,
+        'messages' : messages,
+        'p_messages' : p_message
+    }
+    return render(request, 'pages/chat-user.html', context)
 
 @login_required
 def chatSearch(request):
@@ -54,8 +69,27 @@ def audio(request):
     text = say().lower()
     return JsonResponse({'message':text}, status=200)
 
+def callback(recognizer, audio):
+    try:
+        text = recognizer.recognize_google(audio)
+        if 'time' in text:
+            time = time_now()
+            result  = "Current time is " + time
+            speak(result, 'female')
+        else:
+            print(text)
+    except sr.UnknownValueError:
+        print("Google Speech Recognition could not understand audio")
+    except sr.RequestError as e:
+        print("Could not request results from Google Speech Recognition service; {0}".format(e))
+
 @login_required
 def vAssist(request):
+    r = sr.Recognizer()
+    m = sr.Microphone()
+    with m as source:
+        r.adjust_for_ambient_noise(source)
+    r.listen_in_background(m, callback)
     return render(request, 'pages/vassist.html')
 
 @login_required
@@ -133,17 +167,17 @@ def chatPage(request):
 def audiobook(request):
     if request.method == "POST":
         try:
-            text = ""
+            string = ""
             reader = PdfReader(request.FILES['pdf'])
             number_of_pages = len(reader.pages)
             for i in range(number_of_pages):
                 page = reader.pages[i]
                 text = page.extract_text()
-                text += text
+                string += text
             print(text)
             filename = str(random.randint(0000,9999))+''+str(random.randint(0000,9999))+'.mp3'
             engine = pyttsx3.init()
-            engine.save_to_file(text, 'static/audio/'+filename)
+            engine.save_to_file(string, 'static/audio/'+filename)
             engine.runAndWait()
             Book.objects.create(user=request.user, name=request.POST['name'], audio_src=filename)
         except Exception as e:
